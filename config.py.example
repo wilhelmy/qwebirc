@@ -133,7 +133,8 @@ APP_TITLE = NETWORK_NAME + " Web IRC"
 #         If True then user nicknames will be validated according to
 #         the configuration below, otherwise they will be passed
 #         directly to the ircd.
-NICKNAME_VALIDATE = True
+#         For some reason I question the usefulness of this feature..
+NICKNAME_VALIDATE = False
 
 # OPTION: NICKNAME_VALID_FIRST_CHAR
 #         A string containing valid characters for the first letter of
