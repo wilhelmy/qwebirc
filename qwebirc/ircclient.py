@@ -6,6 +6,7 @@ from twisted.protocols import basic
 from twisted.names.client import Resolver
 import hmac, time, config, random, qwebirc.config_options as config_options
 from config import HMACTEMPORAL
+import qwebirc.identd
 
 if config.get("CONNECTION_RESOLVER"):
   CONNECTION_RESOLVER = Resolver(servers=config.get("CONNECTION_RESOLVER"))
@@ -76,6 +77,8 @@ class QWebIRCClient(basic.LineReceiver):
     nick, ident, ip, realname, hostname, pass_ = f["nick"], f["ident"], f["ip"], f["realname"], f["hostname"], f.get("password")
     self.__nickname = nick
     self.__perform = f.get("perform")
+    host_addr = self.transport.getHost() 
+    qwebirc.identd.user_dict[(host_addr.host, host_addr.port)] = ident
 
     if not hasattr(config, "WEBIRC_MODE"):
       self.write("USER %s bleh bleh %s :%s" % (ident, ip, realname))

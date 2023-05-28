@@ -39,6 +39,32 @@ REALNAME = "http://moo.com/"
 #          supplied nickname as their ident.
 IDENT = "webchat"
 
+# OPTION: IDENTD_PORT
+#         Whether or not to enable the built-in identd server, and - if enabled
+#         - which port to bind it to. The correct port is 113, which would
+#         require root-privileges and privilege dropping, which isn't
+#         implemented. Instead, bind to a port > 1024 and use iptables or even
+#         netcat from inetd to redirect requests from port 113 to the correct
+#         port. Alternatively, e.g. on FreeBSD, you can allow your qwebirc user
+#         to bind to port 113 by loading mac_portacl(4) and setting the correct
+#         sysctl tunable.
+#         Some IRC daemons are set to require an ident server, which causes
+#         problems with web based IRC clients, as they tend to run as the web
+#         server user. Defaults to off, because ident is a mostly deprecated
+#         protocol which not everyone will need.
+IDENTD_PORT = False 
+
+# OPTION: IDENTD_OS
+#         Specifies which OS should be included in the reply sent to the server.
+#         The traditionally correct value for this is UNIX, but most IRC
+#         servers don't check it at all.
+IDENTD_OS = "UNIX"
+
+# OPTION: IDENTD_DEFAULT_USER
+#         Specifies which ident should be sent to the server in case there was
+#         a problem.
+IDENTD_DEFAULT_USER = "Unknown"
+
 # OPTION: OUTGOING_IP
 #         The IP address to bind to when connecting to the IRC server.
 #

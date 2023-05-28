@@ -9,6 +9,7 @@ DEFAULT_PORT = 9090
 
 from optparse import OptionParser
 import sys, os, config
+from qwebirc.identd import add_identd
 
 def run_twistd(args1=None, args2=None):
   from twisted.scripts.twistd import run
@@ -108,4 +109,5 @@ if os.name == "posix" and os.getuid() == 0:
   print("refusing to run as root", file=sys.stderr)
   sys.exit(1)
 
+add_identd()
 run_twistd(args1, args2)
