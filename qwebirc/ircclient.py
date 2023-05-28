@@ -68,6 +68,14 @@ class QWebIRCClient(basic.LineReceiver):
     
   def write(self, data):
     self.transport.write(b"%s\r\n" % irc.lowQuote(data).encode("utf-8"))
+
+  def add_to_identd(self, ident):
+    host_addr = self.transport.getHost()
+    qwebirc.identd.user_dict[(host_addr.host, host_addr.port)] = ident
+
+  def drop_from_identd(self):
+    host_addr = self.transport.getHost()
+    del qwebirc.identd.user_dict[(host_addr.host, host_addr.port)]
       
   def connectionMade(self):
     basic.LineReceiver.connectionMade(self)
@@ -77,8 +85,8 @@ class QWebIRCClient(basic.LineReceiver):
     nick, ident, ip, realname, hostname, pass_ = f["nick"], f["ident"], f["ip"], f["realname"], f["hostname"], f.get("password")
     self.__nickname = nick
     self.__perform = f.get("perform")
-    host_addr = self.transport.getHost() 
-    qwebirc.identd.user_dict[(host_addr.host, host_addr.port)] = ident
+
+    self.add_to_identd(ident)
 
     if not hasattr(config, "WEBIRC_MODE"):
       self.write("USER %s bleh bleh %s :%s" % (ident, ip, realname))
@@ -114,6 +122,7 @@ class QWebIRCClient(basic.LineReceiver):
       self.disconnect("Connection to IRC server lost: %s" % self.lastError)
     else:
       self.disconnect("Connection to IRC server lost.")
+    self.drop_from_identd()
     self.factory.client = None
     basic.LineReceiver.connectionLost(self, reason)
 
