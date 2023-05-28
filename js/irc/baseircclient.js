@@ -30,7 +30,7 @@ qwebirc.irc.BaseIRCClient = new Class({
     this.__signedOn = false;
     this.pmodes = new QHash({b: qwebirc.irc.PMODE_LIST, l: qwebirc.irc.PMODE_SET_ONLY, k: qwebirc.irc.PMODE_SET_UNSET, o: qwebirc.irc.PMODE_SET_UNSET, v: qwebirc.irc.PMODE_SET_UNSET});
     this.channels = new QSet();
-    this.chanPrefixes = new QSet("#", "&");
+    this.chanPrefixes = new QSet("#", "&", "!", "+");
     this.nextctcp = 0;
 
     this.connection = new qwebirc.irc.IRCConnection({

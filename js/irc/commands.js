@@ -201,7 +201,7 @@ qwebirc.irc.Commands = new Class({
 
     if(warn) {
       var delayinfo = function() {
-        this.getActiveWindow().infoMessage("Channel names begin with # (corrected automatically).");
+        this.getActiveWindow().infoMessage("Channel names usually begin with # (corrected automatically).");
       }.bind(this).delay(250);
     }
       
